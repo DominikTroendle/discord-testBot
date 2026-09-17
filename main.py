@@ -2,6 +2,9 @@ import discord
 from dotenv import load_dotenv
 import os
 from discord.ext import commands
+import logging
+
+handler = logging.FileHandler(filename='discordbot.log', mode='w', encoding='utf-8')
 
 load_dotenv()
 token = os.getenv('DISCORD_TOKEN')
@@ -13,4 +16,4 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 async def on_ready():
     print(f"{bot.user} is ready!")
 
-bot.run(token)
+bot.run(token, log_handler=handler, log_level=logging.DEBUG)
