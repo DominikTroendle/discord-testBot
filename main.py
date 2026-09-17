@@ -10,10 +10,23 @@ load_dotenv()
 token = os.getenv('DISCORD_TOKEN')
 
 intents = discord.Intents.default()
+intents.message_content = True
+intents.members = True
+
 bot = commands.Bot(command_prefix='!', intents=intents)
 
 @bot.event
 async def on_ready():
     print(f"{bot.user} is ready!")
+
+@bot.event
+async def on_message(message):
+    if message.author == bot.user:
+        return
+    if 'python' in message.content.lower():
+        await message.delete()
+        channel = message.channel
+        await channel.send(f"Hey {message.author}, dieser Befehl enthält Zeichen, die nur Devs vorbehalten sind!")
+    await bot.process_commands(message)
 
 bot.run(token, log_handler=handler, log_level=logging.DEBUG)
