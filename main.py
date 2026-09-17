@@ -19,6 +19,14 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 async def on_ready():
     print(f"{bot.user} is ready!")
 
+@bot.command()
+async def greet(ctx):
+    await ctx.send(f"Servus {ctx.author.mention}!")
+
+@bot.command()
+async def recent_message(ctx, arg):
+    await ctx.send(f"Deine letzte Nachricht war: {arg}")
+
 @bot.event
 async def on_message(message):
     if message.author == bot.user:
